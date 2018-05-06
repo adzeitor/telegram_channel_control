@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  post_date: 2018-05-06 14:55:20
+  telegram_message_id: 1
+
+two:
+  title: MyString
+  description: MyText
+  post_date: 2018-05-06 14:55:20
+  telegram_message_id: 1
