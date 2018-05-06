@@ -16,10 +16,13 @@ class Telegram
   end
 
   def self.edit_message_caption(chat_id, message_id, text, params={})
+
+    # telegram BUG: both caption and text needed!
     params = {
       'chat_id' => chat_id,
       'message_id' => message_id,
       'caption'  => text,
+      'text'  => text,
     }.merge(params)
 
     self.request('editMessageCaption', params)
@@ -42,6 +45,16 @@ class Telegram
     }.merge(params)
 
     self.request_multipart('sendPhoto', params)
+  end
+
+
+  def self.delete_message(chat_id, message_id, params={})
+    params = {
+      'chat_id' => chat_id,
+      'message_id'  => message_id,
+    }.merge(params)
+
+    self.request('deleteMessage', params)
  end
 
 

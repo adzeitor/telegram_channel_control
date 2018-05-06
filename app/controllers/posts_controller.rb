@@ -56,7 +56,7 @@ class PostsController < ApplicationController
       result = @post.update(post_params)
       errors = @post.errors
     else
-      puts(r)
+      result = false
       errors = [r["description"]]
     end
 
@@ -74,10 +74,26 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
-    @post.destroy
+    r = Telegram.delete_message(ENV["TELEGRAM_CHANNEL_ID"], @post.telegram_message_id)
+
+    if r["ok"] then
+      result = @post.destroy
+      errors = @post.errors
+    else
+      result = false
+      errors = r["description"]
+    end
+
+
+
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
-      format.json { head :no_content }
+      if result
+        format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to posts_url, notice: errors }
+        format.json { render json: errors, status: :unprocessable_entity }
+      end
     end
   end
 
